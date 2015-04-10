@@ -1,86 +1,188 @@
 <?php
-/**
-* This file is part of the "MensaCymru Calendar" plugin for Wolf CMS.
-* Licensed under an GPL style license. For full details see license.txt.
-*
-* @author Giles Metcalf <giles@lughnasadh.com>
-* @copyright Giles Metcalf, 2015
-*
-* Original authors:
-*
-* @author Jacek Ciach <jacek.ciach@wp.eu>
-* @copyright Jacek Ciach, 2014
-*
-*/
-
+	/**
+	* This file is part of the "MensaCymru Calendar" plugin for Wolf CMS.
+	* Licensed under an GPL style license. For full details see license.txt.
+	*
+	* @author Giles Metcalf <giles@lughnasadh.com>
+	* @copyright Giles Metcalf, 2015
+	*
+	* Original authors:
+	*
+	* @author Jacek Ciach <jacek.ciach@wp.eu>
+	* @copyright Jacek Ciach, 2014
+	*
+	*/
+	
 	if (!defined('IN_CMS')) { exit(); }
-	// Connect
-	$PDO = Record::getConnection();
-	$success = 1;
 	
-	// Main calendar events table
-	$sql_table =
-	"CREATE TABLE ".TABLE_PREFIX."calendar (
-		id int NOT NULL AUTO_INCREMENT,
-		created_by_id int NOT NULL,
-		title varchar(256) NOT NULL,
-		date_from date NOT NULL,
-		date_to date NULL,
-		description text NULL,
-		category_key int NOT NULL,
-        image_url varchar(50) NULL,
-        host_id int NULL,		
-		PRIMARY KEY (id),
-		KEY date_from (date_from)
-	) ENGINE=MyISAM";
-	if ($PDO->exec($sql_table) === false) {$success = 0;}
-	
-	// Calendar categories table
-	$sql_table =
-	"CREATE TABLE ".TABLE_PREFIX."calendar_category (
-		category_key int NOT NULL AUTO_INCREMENT,
-		cat_title varchar(50) NOT NULL,
-        cat_image varchar(50) NULL,
-		cat_color varchar(10) NULL,
-		PRIMARY KEY (category_key)
-	) ENGINE=MyISAM";
-	if ($PDO->exec($sql_table) === false) {$success = 0;}
+	class CalendarEvent extends Record {
+		const TABLE_NAME = 'calendar';
+		public $id;
+		public $created_by_id;
+		public $title;
+		public $date_from;
+		public $date_to;
+		public $description;
+		public $category_key;
+		public $image_url;
+		public $host_id;
+		
+	public function checkData() {
+		$this->title = trim($this->title);
+		$this->date_from = trim($this->date_from);
+		$this->date_to = trim($this->date_to);
+		$this->description = trim($this->description);
+		$this->category_key = trim($this->category_key);
+		$this->image_url = trim($this->image_url);
+		$this->host_id = trim($this->host_id);		
+		if (empty($this->title) || empty($this->date_from))
+			{return false;}
+		return $this->checkDates();
+	}
+		
+	public function checkDates() {
+		try {
+			$from = new DateTime($this->date_from);
+		}
+			catch (Exception $e) {
+			return false;
+		}
+		
+		if (!empty($this->date_to)) {
+			try {
+				$to = new DateTime($this->date_to);
+			}
+			catch (Exception $e) {
+				return false;
+			}
+			if ($from == $to)
+				{$this->date_to = "";}
+			else if ($from > $to)
+				{return false;}
+		}
+		return true;
+	}
+		
+	public function getId() {
+		return $this->id;
+	}
 
-	// Calendar hosts table
-	$sql_table =
-	"CREATE TABLE ".TABLE_PREFIX."calendar_hosts (
-		host_id int NOT NULL AUTO_INCREMENT,
-		host_name varchar(50) NOT NULL,
-        host_email varchar(50) NULL,
-		host_phone varchar(50) NULL,
-		host_alt_phone varchar(50) NULL,
-		PRIMARY KEY (host_id)
-	) ENGINE=MyISAM";
-	if ($PDO->exec($sql_table) === false) {$success = 0;}
+	public function getCategoryKey() {
+		return $this->category_key;
+	}
+
+	public function getImageURL() {
+		return $this->image_url;
+	}
+
+	public function getHostId() {
+		return $this->host_id;
+	}
 	
-	// Create at least one category entry
-	$sql_populate = 
-	"INSERT INTO ".TABLE_PREFIX."calendar_category (
-		cat_title, cat_image, cat_color)
-		VALUES ('General', 'gen_icon', '#66FF66')";
-	if ($PDO->exec($sql_populate) === false) {$success = 0;}
+	public function getAuthorID() {
+		return $this->created_by_id;
+	}
 	
-	$sql_procedure =
-	"CREATE PROCEDURE Calendar_GenerateDates (IN date_from date, IN date_to date)
-		begin
-		declare the_date date;
-		create temporary table if not exists __dates (value date not null primary key);
-		set the_date = date_from;
-		while the_date <= date_to do
-		replace into __dates values(the_date);
-		set the_date = the_date + interval 1 day;
-		end while;
-		end";
-	if ($PDO->exec($sql_procedure) === false) {$success = 0;}
+	public function getAuthor() {
+		if (empty($this->created_by_id))
+			{return null;}
+		else {
+			$user = User::findById($this->created_by_id);
+			if ($user instanceof User)
+				{return $user->name;}
+			else
+				{return null;}
+		}
+	}
 	
-	if ($success == 0) {
-		Flash::set('error', __('Error occured during installing the calendar'));
-	} else {
-		Flash::set('success', __('Calendar is enabled!'));
+	public function getTitle() {
+		return $this->title;
+	}
+		
+	public function getDateFrom() {
+		return $this->date_from;
+	}
+		
+	public function getDateTo() {
+		return $this->date_to;
+	}
+	
+	public function getLength() {
+		if (isset($this->date_to))
+			{return 1 + date_diff(new DateTime($this->date_from), new DateTime($this->date_to))->days;}
+		else
+			{return 1;}
+	}
+	
+	public function getDescription() {
+		return $this->description;
+	}
+	
+	public function getContent() {
+		return $this->getDescription();
+	}
+		
+	public function beforeSave() {
+		if ($this->checkData()) {
+			/* if creator's id is known, then just return true */
+			if (empty($this->created_by_id)) {
+				/* if it's not known -- get it */
+				$user_id = AuthUser::getId();
+				if ($user_id === false)
+					{return false;}
+				else
+					{$this->created_by_id = $user_id;}
+			}
+			/* everything is ok */
+			return true;
+		}
+		else
+			{return false;}
+		}
+		
+	public static function generateAllEventsBetween($from, $to) {
+		$class_name = get_called_class();
+		if (CALENDAR_USE_STORED_PROCEDURE) {
+			/* we are using a stored procedure */
+			$generate = "CALL Calendar_GenerateDates('$from','$to')";
+			self::getConnection()->exec($generate);
+			self::logQuery($generate);
+			$sql = 'SELECT * FROM __dates JOIN '.self::tableNameFromClassName($class_name).' cal ON value = cal.date_from OR value BETWEEN cal.date_from AND cal.date_to';
+		}
+		else
+			/* The stored procedure is not used */
+			{$sql = "SELECT * FROM ".self::tableNameFromClassName($class_name)." WHERE date_from BETWEEN '$from' AND '$to' OR date_to BETWEEN '$from' AND '$to'";}
+
+		$stmt = self::getConnection()->query($sql);
+		self::logQuery($sql);
+		$objects = array();
+		while ($object = $stmt->fetchObject($class_name))
+			$objects[] = $object;
+			if (CALENDAR_USE_STORED_PROCEDURE)
+				{return $objects;}
+			else {
+			/* If the stored procedure is not used, we want to "join __dates" with php */
+			$events = array();
+			foreach ($objects as $object) {
+				$date = new DateTime($object->date_from);
+				$date_end = empty($object->date_to) ? new DateTime($object->date_from) : new DateTime($object->date_to);
+				while ($date <= $date_end) {
+					$event = clone($object);
+					$event->value = $date->format('Y-m-d');
+					$events[] = $event;
+					$date->modify("+1 day");
+				} 
+			}
+		return $events;
+		} 
+	} 
+		
+	static public function findEventsByDate($date) {
+		return self::findAllFrom(get_called_class(), "date_from = '$date' OR '$date' BETWEEN date_from AND date_to");
+	}
+	
+	static public function findEventById($id) {
+		return self::findOneFrom(get_called_class(), "id = $id");
+	}
 	}
 ?>
