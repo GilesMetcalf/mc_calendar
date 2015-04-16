@@ -29,11 +29,11 @@ Plugin::setInfos(array(
     'update_url'  => 'https://wolfcms-calendar-plugin.googlecode.com/svn/calendar-version.xml'
 ));
 
-define('CALENDAR_VIEWS', 'calendar/views');
+define('CALENDAR_VIEWS', 'mc_calendar/views');
 
-Plugin::addController('calendar', __('Calendar'), 'admin_view', true);
-AutoLoader::addFile('CalendarEvent', CORE_ROOT.'/plugins/calendar/models/CalendarEvent.php');
-Behavior::add('calendar', 'calendar/behaviour.php');
+Plugin::addController('mc_calendar', __('Calendar'), 'admin_view', true);
+AutoLoader::addFile('CalendarEvent', CORE_ROOT.'/plugins/mc_calendar/models/CalendarEvent.php');
+Behavior::add('mc_calendar', 'mc_calendar/behaviour.php');
 
 function showCalendar($slug, $date = null) {
   $date_begin = new DateTime($date);
