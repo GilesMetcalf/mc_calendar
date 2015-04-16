@@ -15,7 +15,7 @@
 
 if (!defined('IN_CMS')) { exit(); }
 
-class CalendarController extends PluginController {
+class McCalendarController extends PluginController {
 
     private static function _checkPermission() {
         AuthUser::load();
@@ -63,7 +63,7 @@ class CalendarController extends PluginController {
         $notes->delete();
         Flash::set('success', __('The event has been successfully deleted'));
 
-        redirect(get_url('plugin/calendar/events'));
+        redirect(get_url('plugin/mc_calendar/events'));
     }
 
     public function update_event(){
@@ -89,7 +89,10 @@ class CalendarController extends PluginController {
                 $event->title       = $data['title'];
                 $event->date_from   = $data['date_from'];
                 $event->date_to     = $data['date_to'];
-                $event->description = $data['description'];                                
+                $event->description = $data['description'];    
+				$event->image_url   = $data['image_url'];
+				$event->category_key= $data['category_key'];
+				$event->host_id     = $data['host_id'];
                 
                 /* Check data and, if correct, save to DB */
                 if ($event->checkData() && $event->save()) {
@@ -98,7 +101,7 @@ class CalendarController extends PluginController {
                   else
                     Flash::set('success', __('A new event has been created.'));
                   
-                  redirect(get_url('plugin/calendar/events'));
+                  redirect(get_url('plugin/mc_calendar/events'));
                 }
                 else {
                   Flash::setNow('error', __('There are errors in the form.'));                
@@ -107,4 +110,75 @@ class CalendarController extends PluginController {
         }
 
     }
+	
+	public function host_update() {
+        $this->display(CALENDAR_VIEWS.'/host_update');
+	
+	}
+
+	// List all categories
+    public function categories() {
+        $categories = CalendarCategory::findAllFrom('CalendarCategory');
+        $this->display(CALENDAR_VIEWS.'/categories', array('categories' => $categories));
+    }
+ 
+	public function category_update($id){
+        $category = CalendarCategory::findByIdFrom('CalendarCategory', $id);
+        $this->display(CALENDAR_VIEWS.'/category_update', array('categories' => $category));
+    }
+
+	
+	    // Add new category
+    public function new_category(){
+        $this->display(CALENDAR_VIEWS.'/category_update');
+	}
+
+	public function update_category(){
+
+		if (!isset($_POST['save'])) {
+			Flash::set('error', __('Could not update this category!'));
+		}
+		else {
+			use_helper('Kses');
+										
+			/* Prepare the data */                            
+			$data = $_POST['category'];
+			if (isset($data['category_key']))
+			  $data['category_key'] = kses(trim($data['category_key']), array());
+
+			$category = new CalendarCategory();
+
+			if (isset($data['category_key'])) {
+			  $category->category_key  = $data['category_key'];
+			}                 
+			  
+			$category->cat_title       = $data['cat_title'];
+			$category->cat_image   = $data['cat_image'];
+			$category->cat_color     = $data['cat_color'];
+			
+			/* Check data and, if correct, save to DB */
+			if ($category->checkData() && $category->save()) {
+			  if (isset($data['id']))
+				Flash::set('success', __('The event has been updated.'));
+			  else
+				Flash::set('success', __('A new event has been created.'));
+			  
+			  redirect(get_url('plugin/mc_calendar/events'));
+			}
+			else {
+			  Flash::setNow('error', __('There are errors in the form.'));                
+			  $this->display(CALENDAR_VIEWS.'/categories', array('categories' => $categories));                
+			}
+		}
+
+    }
+
+	public function delete_category($id) {
+        $notes = CalendarCategory::findByIdFrom('CalendarCategory', $id);
+        $notes->delete();
+        Flash::set('success', __('The event has been successfully deleted'));
+
+        redirect(get_url('plugin/mc_calendar/categories'));
+	
+	}
 }

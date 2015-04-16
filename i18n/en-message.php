@@ -49,6 +49,20 @@ return array(
     'The event has been updated.'                   => 'The event has been updated.',
     'A new event has been created.'                 => 'A new event has been created.',
     'Are you sure you want to delete this event?'   => 'Are you sure you want to delete this event?',    
+	'Image URL'										=> 'Image URL',
+	'Category'										=> 'Category',
+	'Host'											=> 'Host',
+	'View all hosts'								=> 'View all hosts',
+	'View all categories'							=> 'View all categories',
+	'Edit the category'								=> 'Edit the category',
+	'A new category'								=> 'A new category',
+	'Title bar colour'								=> 'Title bar colour',
+	'Could not update this category!'				=> 'Could not update this category!',
+	'All categories'								=> 'All categories',
+	'Key'											=> 'Key',
+	'Colour'										=> 'Colour',
+	'Are you sure you want to delete this category?'=> 'Are you sure you want to delete this category?',
+	'New category'									=> 'New category',
 );
 
 ?>
