@@ -28,7 +28,7 @@ class CalendarController extends PluginController {
         self::_checkPermission();   
 
         $this->setLayout('backend');
-        $this->assignToLayout('sidebar', new View('../../plugins/calendar/views/sidebar'));
+        $this->assignToLayout('sidebar', new View('../../plugins/mc_calendar/views/sidebar'));
     }
 
     // Take me to all events
