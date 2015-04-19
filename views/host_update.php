@@ -15,57 +15,40 @@
 
 if (!defined('IN_CMS')) { exit(); }
 
-$edit_event = isset($event);
-if (!$edit_event)
-  $event = new CalendarEvent();
+$edit_host = isset($host);
+if (!$edit_host)
+  $host = new CalendarHost();
 
 ?>
 
-<h1><?php echo $edit_event ? __('Edit the event') : __('A new event'); ?></h1>
+<h1><?php echo $edit_host ? __('Edit the host') : __('A new host'); ?></h1>
 
-<form action="<?php echo BASE_URL; ?>plugin/mc_calendar/update_event" method="post">
+<form action="<?php echo BASE_URL; ?>plugin/mc_calendar/update_host" method="post">
     <fieldset style="padding:0.5em;">
-        <legend style="padding: 0em 0.5em 0em 0.5em; font-weight: bold;"><?php echo __('Edit the event'); ?></legend>
+        <legend style="padding: 0em 0.5em 0em 0.5em; font-weight: bold;"><?php echo __('Edit the host'); ?></legend>
             <table class="fieldset" cellspacing="0" cellpadding="0" border="0">
-                <?php if ($edit_event): ?>
-                    <input type="hidden" name="event[id]" value="<?php echo $event->getId(); ?>" />
-                    <input type="hidden" name="event[created_by_id]" value="<?php echo $event->getAuthorID(); ?>" />
+                <?php if ($edit_host): ?>
+                    <input type="hidden" name="host[id]" value="<?php echo $host->getId(); ?>" />
                 <?php endif; ?>                
                 <tr>
-                    <td class="label"><label for="event-title"><?php echo __('Title'); ?></label></td>
-                    <td class="field"><input type="text" id="notes-title" name="event[title]" class="textbox" value="<?php echo $event->getTitle(); ?>" /></td>
+                    <td class="label"><label for="host-host_name"><?php echo __('Host'); ?></label></td>
+                    <td class="field"><input type="text" id="host-name" name="host[host_name]" class="textbox" value="<?php echo $host->getHostName(); ?>" /></td>
                 </tr>
                 <tr>
-                    <td class="label"><label for="event-date_from"><?php echo __('Date from'); ?></label></td>
-                    <td class="field"><input type="text" id="event-date_from" name="event[date_from]" class="textbox" value="<?php echo $event->getDateFrom(); ?>" /></td>
+                    <td class="label"><label for="host-host_email"><?php echo __('Email'); ?></label></td>
+                    <td class="field"><input type="text" id="host-host_email" name="host[host_email]" class="textbox" value="<?php echo $host->getHostEmail(); ?>" /></td>
                 </tr>
                 <tr>
-                    <td class="label"><label for="event-date_to"><?php echo __('Date to'); ?><br><small><?php echo " (".__('not required').")"; ?></small></label></td>
-                    <td class="field"><input type="text" id="event-date_to" name="event[date_to]" class="textbox" value="<?php echo $event->getDateTo(); ?>" /></td>
-                </tr>                                
+                    <td class="label"><label for="host-host_phone"><?php echo __('Mobile No.'); ?><br><small><?php echo " (".__('not required').")"; ?></small></label></td>
+                    <td class="field"><input type="text" id="host-host_phone" name="host[host_phone]" class="textbox" value="<?php echo $host->getHostPhone(); ?>" /></td>
+                </tr>     
                 <tr>
-                    <td class="label"><label for="event-description"><?php echo __('Description'); ?><br><small><?php echo " (".__('not required').")"; ?></small></label></td>
-                    <td class="text">
-                    <textarea id="event_description" name="event[description]" class="textarea" rows="10" cols="40"><?php echo htmlentities($event->getDescription(), ENT_COMPAT, 'UTF-8'); ?></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label"><label for="event-image_url"><?php echo __('Image URL'); ?><br><small><?php echo " (".__('not required').")"; ?></small></label></td>
-                    <td class="field"><input type="text" id="image_url" name="event[image_url]" class="textbox" value="<?php echo $event->getImageURL(); ?>" /></td>
-                </tr>                                
- 
-                <tr>
-                    <td class="label"><label for="event-category_key"><?php echo __('Category'); ?><br><small><?php echo " (".__('not required').")"; ?></small></label></td>
-                    <td class="field"><input type="text" id="category_key" name="event[category_key]" class="textbox" value="<?php echo $event->getCategoryKey(); ?>" /></td>
-                </tr>                                
-                <tr>
-                    <td class="label"><label for="event-host_id"><?php echo __('Host'); ?><br><small><?php echo " (".__('not required').")"; ?></small></label></td>
-                    <td class="field"><input type="text" id="host_id" name="event[host_id]" class="textbox" value="<?php echo $event->getHostId(); ?>" /></td>
-                </tr>                                
-
+                    <td class="label"><label for="host-host_alt_phone"><?php echo __('Alt Phone No.'); ?><br><small><?php echo " (".__('not required').")"; ?></small></label></td>
+                    <td class="field"><input type="text" id="host-host_alt_phone" name="host[host_alt_phone]" class="textbox" value="<?php echo $host->getHostAltPhone(); ?>" /></td>
+                </tr>     
  </table>
     </fieldset>
     <p class="buttons" align="right">
-        <input class="button" type="submit" name="save" value="<?php echo __('Save'); ?>" /> or <a href="<?php echo get_url('plugin/calendar/events'); ?>"><?php echo __('Cancel'); ?></a>
+        <input class="button" type="submit" name="save" value="<?php echo __('Save'); ?>" /> or <a href="<?php echo get_url('plugin/mc_calendar/hosts'); ?>"><?php echo __('Cancel'); ?></a>
     </p>
 </form>

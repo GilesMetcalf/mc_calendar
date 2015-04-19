@@ -27,6 +27,7 @@ created_by_id int NOT NULL,
 title varchar(256) NOT NULL,
 date_from date NOT NULL,
 date_to date NULL,
+start_time text NULL,
 description text NULL,
 category_key int NOT NULL,
 image_url varchar(50) NULL,
@@ -40,11 +41,11 @@ if ($PDO->exec($sql_table) === false) {$success = 0;}
 // Calendar categories table
 $sql_table =
 "CREATE TABLE ".TABLE_PREFIX."calendar_category (
-category_key int NOT NULL AUTO_INCREMENT,
+id int NOT NULL AUTO_INCREMENT,
 cat_title varchar(50) NOT NULL,
 cat_image varchar(50) NULL,
 cat_color varchar(10) NULL,
-PRIMARY KEY (category_key)
+PRIMARY KEY (id)
 ) ENGINE=MyISAM";
 
 if ($PDO->exec($sql_table) === false) {$success = 0;}
@@ -52,12 +53,12 @@ if ($PDO->exec($sql_table) === false) {$success = 0;}
 // Calendar hosts table
 $sql_table =
 "CREATE TABLE ".TABLE_PREFIX."calendar_hosts (
-host_id int NOT NULL AUTO_INCREMENT,
+id int NOT NULL AUTO_INCREMENT,
 host_name varchar(50) NOT NULL,
 host_email varchar(50) NULL,
 host_phone varchar(50) NULL,
 host_alt_phone varchar(50) NULL,
-PRIMARY KEY (host_id)
+PRIMARY KEY (id)
 ) ENGINE=MyISAM";
 
 if ($PDO->exec($sql_table) === false) {$success = 0;}

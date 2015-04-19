@@ -17,7 +17,7 @@
 	
 	class CalendarHost extends Record {
 		const TABLE_NAME = 'calendar_hosts';
-		public $host_id;
+		public $id;
 		public $host_name;
 		public $host_email;
 		public $host_phone;
@@ -30,13 +30,12 @@
 		$this->host_alt_phone = trim($this->host_alt_phone);
 		if (empty($this->host_name))
 			{return false;}
-		else {return true};
+		else {return true;}
 	}
 		
 
-
-	public function getHostId() {
-		return $this->host_id;
+	public function getId() {
+		return $this->id;
 	}
 
 	public function getHostName() {
@@ -57,7 +56,15 @@
 	
 	
 	static public function findHostById($id) {
-		return self::findOneFrom(get_called_class(), "host_id = $id");
+		return self::findOneFrom(get_called_class(), "id = $id");
 	}
+	
+	static public function getHostList() {
+			return self::findAllFrom(get_called_class());
 	}
+
+
+}
+
+
 ?>

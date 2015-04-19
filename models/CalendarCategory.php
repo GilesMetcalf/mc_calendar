@@ -17,7 +17,7 @@
 	
 	class CalendarCategory extends Record {
 		const TABLE_NAME = 'calendar_category';
-		public $category_key;
+		public $id;
 		public $cat_title;
 		public $cat_image;
 		public $cat_color;
@@ -33,8 +33,8 @@
 		
 
 
-	public function getCategoryKey() {
-		return $this->category_key;
+	public function getId() {
+		return $this->id;
 	}
 
 	public function getTitle() {
@@ -51,7 +51,11 @@
 	
 	
 	static public function findCategoryById($id) {
-		return self::findOneFrom(get_called_class(), "category_key = $id");
+		return self::findOneFrom(get_called_class(), "id = $id");
 	}
+	
+	static public function getCategoryList() {
+		return self::findAllFrom(get_called_class());
 	}
+}
 ?>

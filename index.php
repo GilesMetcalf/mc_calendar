@@ -34,6 +34,7 @@ define('CALENDAR_VIEWS', 'mc_calendar/views');
 Plugin::addController('mc_calendar', __('Calendar'), 'admin_view', true);
 AutoLoader::addFile('CalendarEvent', CORE_ROOT.'/plugins/mc_calendar/models/CalendarEvent.php');
 AutoLoader::addFile('CalendarCategory', CORE_ROOT.'/plugins/mc_calendar/models/CalendarCategory.php');
+AutoLoader::addFile('CalendarHost', CORE_ROOT.'/plugins/mc_calendar/models/CalendarHost.php');
 Behavior::add('mc_calendar', 'mc_calendar/behaviour.php');
 
 function showCalendar($slug, $date = null) {

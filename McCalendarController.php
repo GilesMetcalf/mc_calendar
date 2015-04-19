@@ -111,11 +111,6 @@ class McCalendarController extends PluginController {
 
     }
 	
-	public function host_update() {
-        $this->display(CALENDAR_VIEWS.'/host_update');
-	
-	}
-
 	// List all categories
     public function categories() {
         $categories = CalendarCategory::findAllFrom('CalendarCategory');
@@ -124,7 +119,7 @@ class McCalendarController extends PluginController {
  
 	public function category_update($id){
         $category = CalendarCategory::findByIdFrom('CalendarCategory', $id);
-        $this->display(CALENDAR_VIEWS.'/category_update', array('categories' => $category));
+        $this->display(CALENDAR_VIEWS.'/category_update', array('category' => $category));
     }
 
 	
@@ -143,13 +138,13 @@ class McCalendarController extends PluginController {
 										
 			/* Prepare the data */                            
 			$data = $_POST['category'];
-			if (isset($data['category_key']))
-			  $data['category_key'] = kses(trim($data['category_key']), array());
+			if (isset($data['id']))
+			  $data['id'] = kses(trim($data['id']), array());
 
 			$category = new CalendarCategory();
 
-			if (isset($data['category_key'])) {
-			  $category->category_key  = $data['category_key'];
+			if (isset($data['id'])) {
+			  $category->id  = $data['id'];
 			}                 
 			  
 			$category->cat_title       = $data['cat_title'];
@@ -159,11 +154,11 @@ class McCalendarController extends PluginController {
 			/* Check data and, if correct, save to DB */
 			if ($category->checkData() && $category->save()) {
 			  if (isset($data['id']))
-				Flash::set('success', __('The event has been updated.'));
+				Flash::set('success', __('The category has been updated.'));
 			  else
-				Flash::set('success', __('A new event has been created.'));
+				Flash::set('success', __('A new category has been created.'));
 			  
-			  redirect(get_url('plugin/mc_calendar/events'));
+			  redirect(get_url('plugin/mc_calendar/categories'));
 			}
 			else {
 			  Flash::setNow('error', __('There are errors in the form.'));                
@@ -176,9 +171,76 @@ class McCalendarController extends PluginController {
 	public function delete_category($id) {
         $notes = CalendarCategory::findByIdFrom('CalendarCategory', $id);
         $notes->delete();
-        Flash::set('success', __('The event has been successfully deleted'));
+        Flash::set('success', __('The category has been successfully deleted'));
 
         redirect(get_url('plugin/mc_calendar/categories'));
 	
 	}
+
+	// List all hosts
+    public function hosts() {
+        $hosts = CalendarHost::findAllFrom('CalendarHost');
+        $this->display(CALENDAR_VIEWS.'/hosts', array('hosts' => $hosts));
+    }
+ 
+	public function host_update($id){
+        $host = CalendarHost::findByIdFrom('CalendarHost', $id);
+        $this->display(CALENDAR_VIEWS.'/host_update', array('host' => $host));
+    }
+
+	
+	    // Add new host
+    public function new_host(){
+        $this->display(CALENDAR_VIEWS.'/host_update');
+	}
+
+	public function update_host() {
+			if (!isset($_POST['save'])) {
+			Flash::set('error', __('Could not update this host!'));
+		}
+		else {
+			use_helper('Kses');
+										
+			/* Prepare the data */                            
+			$data = $_POST['host'];
+			if (isset($data['id']))
+			  $data['id'] = kses(trim($data['id']), array());
+
+			$host = new CalendarHost();
+
+			if (isset($data['id'])) {
+			  $host->id  = $data['id'];
+			}                 
+			  
+			$host->host_name   = $data['host_name'];
+			$host->host_email   = $data['host_email'];
+			$host->host_phone   = $data['host_phone'];
+			$host->host_alt_phone   = $data['host_alt_phone'];
+			
+			/* Check data and, if correct, save to DB */
+			if ($host->checkData() && $host->save()) {
+			  if (isset($data['id']))
+				Flash::set('success', __('The host has been updated.'));
+			  else
+				Flash::set('success', __('A new host has been created.'));
+			  
+			  redirect(get_url('plugin/mc_calendar/hosts'));
+			}
+			else {
+			  Flash::setNow('error', __('There are errors in the form.'));                
+			  $this->display(CALENDAR_VIEWS.'/hosts', array('hosts' => $hosts));                
+			}
+		}
+
+    }
+	
+	public function delete_host($id) {
+        $host = CalendarHost::findByIdFrom('CalendarHost', $id);
+        $host->delete();
+        Flash::set('success', __('The host has been successfully deleted'));
+
+        redirect(get_url('plugin/mc_calendar/hosts'));
+	
+	}
+
 }

@@ -21,7 +21,7 @@ if (!defined('IN_CMS')) { exit(); }
     <table class="index" cellspacing="0" cellpadding="0" border="0">
         <thead>
             <tr>
-                <td><?php echo __('Key'); ?></td>
+                <td><?php echo __('Id'); ?></td>
                 <td><?php echo __('Title'); ?></td>
                 <td><?php echo __('Image URL'); ?></td>
                 <td><?php echo __('Colour'); ?></td>                
@@ -32,11 +32,11 @@ if (!defined('IN_CMS')) { exit(); }
         <?php foreach($categories as $category) { ?>
 
         <tr class="<?php echo odd_even(); ?>">
-            <td><?php echo $category->getCategoryKey(); ?></td>
-            <td><a href="<?php echo get_url('plugin/mc_calendar/category_update/'.$category->category_key); ?>"><?php echo $category->getTitle(); ?></a></td>
+            <td><?php echo $category->getId(); ?></td>
+            <td><a href="<?php echo get_url('plugin/mc_calendar/category_update/'.$category->id); ?>"><?php echo $category->getTitle(); ?></a></td>
             <td><?php echo $category->getCategoryImage(); ?></td>            
             <td><?php echo $category->getColor(); ?></td>            
-             <td><a class="delete-event" href="<?php echo get_url('plugin/mc_calendar/delete_category/'.$category->category_key); ?>"><img src="<?php echo ICONS_PATH; ?>action-delete-16.png" alt="Delete" /></a></td>
+             <td><a class="delete-event" href="<?php echo get_url('plugin/mc_calendar/delete_category/'.$category->id); ?>"><img src="<?php echo ICONS_PATH; ?>action-delete-16.png" alt="Delete" /></a></td>
         </tr>
         <?php } ?>
     </table>

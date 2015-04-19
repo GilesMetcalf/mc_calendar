@@ -44,6 +44,10 @@ if (!$edit_event)
                     <td class="field"><input type="text" id="event-date_to" name="event[date_to]" class="textbox" value="<?php echo $event->getDateTo(); ?>" /></td>
                 </tr>                                
                 <tr>
+                    <td class="label"><label for="event-start_time"><?php echo __('Start time'); ?><br><small><?php echo " (".__('not required').")"; ?></small></label></td>
+                    <td class="field"><input type="text" id="event-start_time" name="event[start_time]" class="textbox" value="<?php echo $event->getStartTime(); ?>" /></td>
+                </tr>                                
+                  <tr>
                     <td class="label"><label for="event-description"><?php echo __('Description'); ?><br><small><?php echo " (".__('not required').")"; ?></small></label></td>
                     <td class="text">
                     <textarea id="event_description" name="event[description]" class="textarea" rows="10" cols="40"><?php echo htmlentities($event->getDescription(), ENT_COMPAT, 'UTF-8'); ?></textarea>
@@ -56,16 +60,56 @@ if (!$edit_event)
  
                 <tr>
                     <td class="label"><label for="event-category_key"><?php echo __('Category'); ?><br><small><?php echo " (".__('not required').")"; ?></small></label></td>
-                    <td class="field"><input type="text" id="category_key" name="event[category_key]" class="textbox" value="<?php echo $event->getCategoryKey(); ?>" /></td>
-                </tr>                                
+                    <td class="field">
+ 					<select id="category_key" name="event[category_key]">
+					<?php
+						$categories = CalendarCategory::getCategoryList();
+						$thisCategory = $event->getCategoryKey();
+						$hasCategory = isset($thisCategory);
+						if (!$hasCategory) {
+							echo '<option value="" disabled="disabled" selected="selected">';
+							echo __('Please select a category');
+							echo '</option>';
+						}
+						foreach ($categories as $category) {
+							echo '<option value="'.$category->getId().'"';
+							if ($category->getId() == $thisCategory) {
+								echo ' selected="selected"';
+							}
+							echo '>'.$category->getTitle().'</option>';
+						}
+ 					?>
+					</select>
+					</td>
+				</tr> 
                 <tr>
-                    <td class="label"><label for="event-host_id"><?php echo __('Host'); ?><br><small><?php echo " (".__('not required').")"; ?></small></label></td>
-                    <td class="field"><input type="text" id="host_id" name="event[host_id]" class="textbox" value="<?php echo $event->getHostId(); ?>" /></td>
+                    <td class="label"><label for="event-host_id"><?php echo __('Host'); ?></label></td>
+					<td class="field"> 
+					<select id="host_id" name="event[host_id]">
+					<?php
+						$hosts = CalendarHost::getHostList();
+						$thisHost = $event->getHostId();
+						$hasHost = isset($thisHost);
+						if (!$hasHost) {
+							echo '<option value="" disabled="disabled" selected="selected">';
+							echo __('Please select a host');
+							echo '</option>';
+						}
+						foreach ($hosts as $host) {
+							echo '<option value="'.$host->getId().'"';
+							if ($host->getId() == $thisHost) {
+								echo ' selected="selected"';
+							}
+							echo '>'.$host->getHostName().'</option>';
+						}
+ 					?>
+					</select>
+                    </td>
                 </tr>                                
 
  </table>
     </fieldset>
     <p class="buttons" align="right">
-        <input class="button" type="submit" name="save" value="<?php echo __('Save'); ?>" /> or <a href="<?php echo get_url('plugin/calendar/events'); ?>"><?php echo __('Cancel'); ?></a>
+        <input class="button" type="submit" name="save" value="<?php echo __('Save'); ?>" /> or <a href="<?php echo get_url('plugin/mc_calendar/events'); ?>"><?php echo __('Cancel'); ?></a>
     </p>
 </form>

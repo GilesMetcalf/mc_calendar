@@ -28,7 +28,7 @@ if (!$edit_category)
         <legend style="padding: 0em 0.5em 0em 0.5em; font-weight: bold;"><?php echo __('Edit the category'); ?></legend>
             <table class="fieldset" cellspacing="0" cellpadding="0" border="0">
                 <?php if ($edit_category): ?>
-                    <input type="hidden" name="category[category_key]" value="<?php echo $category->getCategoryKey(); ?>" />
+                    <input type="hidden" name="category[id]" value="<?php echo $category->getId(); ?>" />
                 <?php endif; ?>                
                 <tr>
                     <td class="label"><label for="category-title"><?php echo __('Title'); ?></label></td>
@@ -40,12 +40,12 @@ if (!$edit_category)
                 </tr>
                 <tr>
                     <td class="label"><label for="category-color"><?php echo __('Title bar colour'); ?></label></td>
-                    <td class="field"><input type="text" id="category-color" name="category[cat_color]" class="textbox" value="<?php echo $category->getColor(); ?>" /></td>
+                    <td class="field"><input type="color" id="category-color" name="category[cat_color]" class="textbox" value="<?php echo $category->getColor(); ?>" /></td>
                 </tr>
 
  </table>
     </fieldset>
     <p class="buttons" align="right">
-        <input class="button" type="submit" name="save" value="<?php echo __('Save'); ?>" /> or <a href="<?php echo get_url('plugin/mc_calendar/events'); ?>"><?php echo __('Cancel'); ?></a>
+        <input class="button" type="submit" name="save" value="<?php echo __('Save'); ?>" /> or <a href="<?php echo get_url('plugin/mc_calendar/categories'); ?>"><?php echo __('Cancel'); ?></a>
     </p>
 </form>

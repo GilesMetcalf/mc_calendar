@@ -22,6 +22,7 @@
 		public $title;
 		public $date_from;
 		public $date_to;
+		public $start_time;
 		public $description;
 		public $category_key;
 		public $image_url;
@@ -31,6 +32,7 @@
 		$this->title = trim($this->title);
 		$this->date_from = trim($this->date_from);
 		$this->date_to = trim($this->date_to);
+		$this->start_time = trim($this->start_time);
 		$this->description = trim($this->description);
 		$this->category_key = trim($this->category_key);
 		$this->image_url = trim($this->image_url);
@@ -107,6 +109,10 @@
 		return $this->date_to;
 	}
 	
+	public function getStartTime() {
+		return $this->start_time;
+	}
+		
 	public function getLength() {
 		if (isset($this->date_to))
 			{return 1 + date_diff(new DateTime($this->date_from), new DateTime($this->date_to))->days;}
