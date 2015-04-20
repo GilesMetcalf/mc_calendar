@@ -112,7 +112,9 @@ class CalendarTable {
           if (array_key_exists($date_string, $this->events_map)) {
             echo "<ul class=\"events-list\">";
             foreach ($this->events_map[$date_string] as $event)
-              echo "<li><a href='$this->base_path/$date_string'>$event</a></li>";                                          
+            /* Need to look at how these URLs are built and events displayed. The approach here is lazy! */
+              /* echo "<li><a href='$this->base_path/$date_string'>$event</a></li>"; */                                         
+              echo '<li><a href="'.get_url('plugin/mc_calendar/display_event/'.$event->id).'">'.$event.'</a></li>';                                          
             echo "</ul>";            
           }
           echo "</td>";
