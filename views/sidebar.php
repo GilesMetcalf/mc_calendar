@@ -16,10 +16,10 @@
 ?>
 <p class="button"><a href="<?php echo get_url('plugin/mc_calendar/new_event'); ?>"><img src="<?php echo PLUGINS_URI; ?>/mc_calendar/images/new_event.png" align="middle" alt="New event" /> <?php echo __('New event'); ?></a></p>
 <p class="button"><a href="<?php echo get_url('plugin/mc_calendar/events'); ?>"><img src="<?php echo PLUGINS_URI; ?>/mc_calendar/images/view.png" align="middle" alt="View all events" /> <?php echo __('View all events'); ?></a></p>
-<p class="button"><a href="<?php echo get_url('plugin/mc_calendar/hosts'); ?>"><img src="<?php echo PLUGINS_URI; ?>/mc_calendar/images/view.png" align="middle" alt="View all events" /> <?php echo __('View all hosts'); ?></a></p>
-<p class="button"><a href="<?php echo get_url('plugin/mc_calendar/new_host'); ?>"><img src="<?php echo PLUGINS_URI; ?>/mc_calendar/images/view.png" align="middle" alt="View all events" /> <?php echo __('New host'); ?></a></p>
-<p class="button"><a href="<?php echo get_url('plugin/mc_calendar/categories'); ?>"><img src="<?php echo PLUGINS_URI; ?>/mc_calendar/images/view.png" align="middle" alt="View all events" /> <?php echo __('View all categories'); ?></a></p>
-<p class="button"><a href="<?php echo get_url('plugin/mc_calendar/new_category'); ?>"><img src="<?php echo PLUGINS_URI; ?>/mc_calendar/images/view.png" align="middle" alt="View all events" /> <?php echo __('New category'); ?></a></p>
+<p class="button"><a href="<?php echo get_url('plugin/mc_calendar/hosts'); ?>"><img src="<?php echo PLUGINS_URI; ?>/mc_calendar/images/host.png" align="middle" alt="View all events" /> <?php echo __('View all hosts'); ?></a></p>
+<p class="button"><a href="<?php echo get_url('plugin/mc_calendar/new_host'); ?>"><img src="<?php echo PLUGINS_URI; ?>/mc_calendar/images/new_host.png" align="middle" alt="View all events" /> <?php echo __('New host'); ?></a></p>
+<p class="button"><a href="<?php echo get_url('plugin/mc_calendar/categories'); ?>"><img src="<?php echo PLUGINS_URI; ?>/mc_calendar/images/category.png" align="middle" alt="View all events" /> <?php echo __('View all categories'); ?></a></p>
+<p class="button"><a href="<?php echo get_url('plugin/mc_calendar/new_category'); ?>"><img src="<?php echo PLUGINS_URI; ?>/mc_calendar/images/new_category.png" align="middle" alt="View all events" /> <?php echo __('New category'); ?></a></p>
 <p class="button"><a href="<?php echo get_url('plugin/mc_calendar/documentation'); ?>"><img src="<?php echo PLUGINS_URI; ?>/mc_calendar/images/doc.png" align="middle" alt="Docs" /> <?php echo __('Documentation'); ?></a></p>
 
 <div class="box">
