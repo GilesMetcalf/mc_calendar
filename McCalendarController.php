@@ -66,6 +66,13 @@ class McCalendarController extends PluginController {
         redirect(get_url('plugin/mc_calendar/events'));
     }
 
+
+    //Display an event   
+    public function display_event($id){
+        $event = CalendarEvent::findByIdFrom('CalendarEvent', $id);
+        $this->display(CALENDAR_VIEWS.'/event_frontend', array('event' => $event));
+    }
+
     public function update_event(){
 
             if (!isset($_POST['save'])) {
