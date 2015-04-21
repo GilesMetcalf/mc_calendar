@@ -88,7 +88,7 @@ class CalendarNotices {
 		echo '<div class=\"cardfooter\">\n';
 		echo '<p>Contact: '.$host->getHostName();
 		if (isset($host->getHostEmail()) {
-			echo ' (<a href=\"mailto:'.$host->getHostName().'/">'.$host->getHostName().'</a>)';
+			echo ' (<a href=\"mailto:'.$host->getHostName().'\">'.$host->getHostName().'</a>)';
 		}
 		echo '</p>\n';
 		if (isset($host->getHostPhone()) {
