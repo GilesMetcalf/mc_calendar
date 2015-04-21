@@ -64,6 +64,30 @@ function showCalendar($slug, $date = null) {
   $calendar->display();
 }
 
+function showNoticeBoard($date = null) {
+  $date_begin = new DateTime($date);
+  $date_begin->modify("first day of this month"); 
+  $date_begin->modify("-1 week");
+  $date_begin = $date_begin->format('Y-m-d');
+  
+  $date_end = new DateTime($date);
+  $date_end->modify("last day of this month"); 
+  $date_end->modify("+1 week");
+  $date_end = $date_end->format('Y-m-d');    
+  
+  $events = CalendarEvent::generateAllEventsBetween($date_begin, $date_end);
+  $events_map = array();
+  
+  $notices = new View(
+                    PLUGINS_ROOT.DS.CALENDAR_VIEWS.'/calendar_notices',
+                    array(
+                      'base_path' => BASE_URL.$slug,
+                      'date'      => $date,
+                      'events'       => $events
+                    ));
+  $notices->display();
+}
+
 function showEvent($event, $show_author = true) {   
   /* Prepare the event's data */
   $vars['id']    = $event->getId();  
