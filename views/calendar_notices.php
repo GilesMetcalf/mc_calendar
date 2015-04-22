@@ -57,6 +57,7 @@ class CalendarNotices {
 		
 		// Card header
 		echo '<div class=\"cardhead\" style=\"background:'.$category->getColor().'\">\n';
+		echo '<img class=\"right\" src="'.URL_PUBLIC.'public/images/'.$category->getCategoryImage().'\">\n';
 		echo '<h2>';
 		
 		//Render the event date into dd MM format
@@ -92,7 +93,11 @@ class CalendarNotices {
 		}
 		echo '</p>\n';
 		if (isset($host->getHostPhone()) {
-			echo '<p>Phone: '.$host->getHostPhone().'</p>\n';
+			echo '<p>Phone: '.$host->getHostPhone();
+			if (isset($host->getHostAltPhone()) {
+				echo ' / '.$host->getHostAltPhone();
+			}
+			echo '</p>\n';
 		}
 		echo '</div>\n';
 		
