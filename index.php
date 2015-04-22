@@ -81,7 +81,7 @@ function showNoticeBoard($date = null) {
   $notices = new View(
                     PLUGINS_ROOT.DS.CALENDAR_VIEWS.'/calendar_notices',
                     array(
-                      'base_path' => BASE_URL.$slug,
+                      'base_path' => BASE_URL.'/showNoticeBoard/',
                       'date'      => $date,
                       'events'       => $events
                     ));
