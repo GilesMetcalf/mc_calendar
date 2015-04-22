@@ -22,6 +22,7 @@ class CalendarNotices {
   private $events;
   private $base_path;
   
+  const DAYS = 7;
 
   /** Prints the month containing the date
    * @param $_date null means ,today'
@@ -34,7 +35,7 @@ class CalendarNotices {
       $date->setTime(0,0);      
     }
     catch (Exception $e) {
-      echo "<p class=\"error\">The date: $this->date is incorrect.</p>\n";
+      echo "<p class=\"error\">The date: $this->date is incorrect.</p>";
       return;
     }
       
@@ -47,7 +48,7 @@ class CalendarNotices {
     $first_day_of_week = ($date->format('w') -1 + self::DAYS) % self::DAYS;
     $date->modify("-$first_day_of_week day");     
     
-	foreach ($events as $event) {	
+	foreach ($this->events as $event) {	
 	  
 	// get the host and category
 		$host = CalendarHost::findByIdFrom('CalendarHost', $event->getHostId());
@@ -56,8 +57,8 @@ class CalendarNotices {
 		echo '<div class=\"card\">\n';
 		
 		// Card header
-		echo '<div class=\"cardhead\" style=\"background:'.$category->getColor().'\">\n';
-		echo '<img class=\"right\" src="'.URL_PUBLIC.'public/images/'.$category->getCategoryImage().'\">\n';
+		echo '<div class="cardhead" style="background:'.$category->getColor().'">';
+		echo '<img class="right" src="'.URL_PUBLIC.'public/images/'.$category->getCategoryImage().'">';
 		echo '<h2>';
 		
 		//Render the event date into dd MM format
@@ -66,43 +67,43 @@ class CalendarNotices {
 			$eventdate->setTime(0,0);        
 		}
 		catch (Exception $e) {
-		  echo "<p class=\"error\">The date: $this->date is incorrect.</p>\n";
+		  echo "<p class=\"error\">The date: $this->date is incorrect.</p>";
 		  return;
 		}		
 		$eventday   = $eventdate->format('d');
 		$eventmonth = $eventdate->format('m');
 		
 		echo $eventday.' '.$eventmonth;
-		if (isset($event->getStartTime()) {
-			echo ' - '.getStartTime();
-		}
+		//if (!empty($event->getStartTime()) {
+			echo ' - '.$event->getStartTime();
+		//}
 		echo '</h2><h3>';
-		echo $event->getTitle().'</h3></div>\n';
+		echo $event->getTitle().'</h3></div>';
 		
 		//Card body
-		echo '<div class=\"cardbody\">\n';
+		echo '<div class="cardbody">';
 		echo '<p>';
 		echo $event->getDescription();
-		echo '</p></div>\n';
+		echo '</p></div>';
 		
 		//Card footer
-		echo '<div class=\"cardfooter\">\n';
+		echo '<div class="cardfooter">';
 		echo '<p>Contact: '.$host->getHostName();
-		if (isset($host->getHostEmail()) {
-			echo ' (<a href=\"mailto:'.$host->getHostName().'\">'.$host->getHostName().'</a>)';
-		}
-		echo '</p>\n';
-		if (isset($host->getHostPhone()) {
+		//if (!empty($host->getHostEmail()) {
+			echo ' (<a href="mailto:'.$host->getHostName().'">'.$host->getHostName().'</a>)';
+		//}
+		echo '</p>';
+		//if (!empty($host->getHostPhone()) {
 			echo '<p>Phone: '.$host->getHostPhone();
-			if (isset($host->getHostAltPhone()) {
+			//if (!empty($host->getHostAltPhone()) {
 				echo ' / '.$host->getHostAltPhone();
-			}
-			echo '</p>\n';
-		}
-		echo '</div>\n';
+			//}
+			echo '</p>';
+		//}
+		echo '</div>';
 		
 		
-		echo '</div>\n';
+		echo '</div>';
 	}  
     
   }
@@ -111,9 +112,13 @@ class CalendarNotices {
   
 public function __construct($base_path, $date = null, $events = array()) {
     $this->base_path = $base_path;
-    $this->day_names = self::getDaysNames("%a");
+    //$this->day_names = self::getDaysNames("%a");
     $this->date = $date;
     $this->events = $events;
+	
+	echo '<p>Base path: '.$this->base_path.'</p>';
+	echo '<p>Date: '.$this->date.'</p>';
+	
   }
   
 } // END: class CalendarTable
@@ -128,9 +133,9 @@ $datetime_next = clone($datetime);
 $datetime_next->modify("first day of next month");
 
 echo "<h3>";
-echo "<span class=\"prev\"><a href=\"$base_path/".$datetime_prev->format("Y")."/".$datetime_prev->format("m")."\">".strftime("%B %Y", $datetime_prev->getTimestamp())."</a></span>";
+echo "<span class="prev"><a href="$base_path/".$datetime_prev->format("Y")."/".$datetime_prev->format("m")."\">".strftime("%B %Y", $datetime_prev->getTimestamp())."</a></span>";
 echo " ".strftime("%B %Y", $datetime->getTimestamp())." ";
-echo "<span class=\"next\"><a href=\"$base_path/".$datetime_next->format("Y")."/".$datetime_next->format("m")."\">".strftime("%B %Y", $datetime_next->getTimestamp())."</a></span>";
+echo "<span class="next"><a href="$base_path/".$datetime_next->format("Y")."/".$datetime_next->format("m")."\">".strftime("%B %Y", $datetime_next->getTimestamp())."</a></span>";
 echo "</h3>";
 
 $notices = new CalendarNotices($base_path, $date, $events);

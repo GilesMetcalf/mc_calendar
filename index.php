@@ -76,7 +76,7 @@ function showNoticeBoard($date = null) {
   $date_end = $date_end->format('Y-m-d');    
   
   $events = CalendarEvent::generateAllEventsBetween($date_begin, $date_end);
-  $events_map = array();
+  //$events_map = array();
   
   $notices = new View(
                     PLUGINS_ROOT.DS.CALENDAR_VIEWS.'/calendar_notices',
