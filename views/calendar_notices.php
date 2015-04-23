@@ -54,7 +54,7 @@ class CalendarNotices {
 		$host = CalendarHost::findByIdFrom('CalendarHost', $event->getHostId());
 	    $category = CalendarCategory::findByIdFrom('CalendarCategory', $event->getCategoryKey());
 		
-		echo '<div class=\"card\">\n';
+		echo '<div class="card">';
 		
 		// Card header
 		echo '<div class="cardhead" style="background:'.$category->getColor().'">';
@@ -115,9 +115,9 @@ public function __construct($base_path, $date = null, $events = array()) {
     //$this->day_names = self::getDaysNames("%a");
     $this->date = $date;
     $this->events = $events;
-	
-	echo '<p>Base path: '.$this->base_path.'</p>';
-	echo '<p>Date: '.$this->date.'</p>';
+	//Debug code
+	//echo '<p>Base path: '.$this->base_path.'</p>';
+	//echo '<p>Date: '.$this->date.'</p>';
 	
   }
   
@@ -133,9 +133,9 @@ $datetime_next = clone($datetime);
 $datetime_next->modify("first day of next month");
 
 echo "<h3>";
-echo "<span class="prev"><a href="$base_path/".$datetime_prev->format("Y")."/".$datetime_prev->format("m")."\">".strftime("%B %Y", $datetime_prev->getTimestamp())."</a></span>";
+echo "<span class=\"prev\"><a href=\"$base_path/".$datetime_prev->format("Y")."/".$datetime_prev->format("m")."\">".strftime("%B %Y", $datetime_prev->getTimestamp())."</a></span>";
 echo " ".strftime("%B %Y", $datetime->getTimestamp())." ";
-echo "<span class="next"><a href="$base_path/".$datetime_next->format("Y")."/".$datetime_next->format("m")."\">".strftime("%B %Y", $datetime_next->getTimestamp())."</a></span>";
+echo "<span class=\"next\"><a href=\"$base_path/".$datetime_next->format("Y")."/".$datetime_next->format("m")."\">".strftime("%B %Y", $datetime_next->getTimestamp())."</a></span>";
 echo "</h3>";
 
 $notices = new CalendarNotices($base_path, $date, $events);
