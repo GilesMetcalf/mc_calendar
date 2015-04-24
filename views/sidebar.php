@@ -23,6 +23,8 @@
 <p class="button"><a href="<?php echo get_url('plugin/mc_calendar/documentation'); ?>"><img src="<?php echo PLUGINS_URI; ?>/mc_calendar/images/doc.png" align="middle" alt="Docs" /> <?php echo __('Documentation'); ?></a></p>
 
 <div class="box">
+    <h3>A comment on date formats</h3>
+    <p>When entering a date for an event, remember to enter it in YYYY-MM-DD format!</p>
     <h3>Show note in frontend</h3>
     <p>There are two ways to display your notes in your layout, page or snippet.</p>
     <h5>Show only one note</h5>
