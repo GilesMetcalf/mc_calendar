@@ -96,10 +96,11 @@ class McCalendarController extends PluginController {
                 $event->title       = $data['title'];
                 $event->date_from   = $data['date_from'];
                 $event->date_to     = $data['date_to'];
+                $event->start_time  = $data['start_time'];
                 $event->description = $data['description'];    
-				$event->image_url   = $data['image_url'];
-				$event->category_key= $data['category_key'];
-				$event->host_id     = $data['host_id'];
+		$event->image_url   = $data['image_url'];
+		$event->category_key= $data['category_key'];
+		$event->host_id     = $data['host_id'];
                 
                 /* Check data and, if correct, save to DB */
                 if ($event->checkData() && $event->save()) {
