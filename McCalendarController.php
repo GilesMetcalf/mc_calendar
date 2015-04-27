@@ -250,4 +250,8 @@ class McCalendarController extends PluginController {
 	
 	}
 
+	public function notices($date) {
+		showNoticeBoard($date);
+	}
+	
 }
