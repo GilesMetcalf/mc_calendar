@@ -73,7 +73,8 @@ class CalendarNotices {
 		$eventday   = $eventdate->format('d');
 		$eventmonth = $eventdate->format('m');
 		
-		echo $eventday.' '.$eventmonth;
+		echo strftime("%e %B",$eventdate->getTimestamp());
+		//echo $eventday.' '.$eventmonth;
 		//if (!empty($event->getStartTime()) {
 			echo ' - '.$event->getStartTime();
 		//}
@@ -84,13 +85,13 @@ class CalendarNotices {
 		echo '<div class="cardbody">';
 		echo '<p>';
 		echo $event->getDescription();
-		echo '</p></div>';
+		echo '</p>';
 		
 		//Card footer
 		echo '<div class="cardfooter">';
 		echo '<p>Contact: '.$host->getHostName();
 		//if (!empty($host->getHostEmail()) {
-			echo ' (<a href="mailto:'.$host->getHostName().'">'.$host->getHostName().'</a>)';
+			echo ' (<a href="mailto:'.$host->getHostEmail().'">'.$host->getHostEmail().'</a>)';
 		//}
 		echo '</p>';
 		//if (!empty($host->getHostPhone()) {
@@ -101,7 +102,7 @@ class CalendarNotices {
 			echo '</p>';
 		//}
 		echo '</div>';
-		
+		echo '</div>';
 		
 		echo '</div>';
 	}  
@@ -133,10 +134,11 @@ $datetime_next = clone($datetime);
 $datetime_next->modify("first day of next month");
 
 echo "<h3>";
-echo "<span class=\"prev\"><a href=\"$base_path/".$datetime_prev->format("Y")."/".$datetime_prev->format("m")."\">".strftime("%B %Y", $datetime_prev->getTimestamp())."</a></span>";
+echo "<span class=\"prev\"><a href=\"$base_path".$datetime_prev->format("Y")."/".$datetime_prev->format("m")."\">".strftime("%B %Y", $datetime_prev->getTimestamp())."</a></span>";
 echo " ".strftime("%B %Y", $datetime->getTimestamp())." ";
-echo "<span class=\"next\"><a href=\"$base_path/".$datetime_next->format("Y")."/".$datetime_next->format("m")."\">".strftime("%B %Y", $datetime_next->getTimestamp())."</a></span>";
+echo "<span class=\"next\"><a href=\"$base_path".$datetime_next->format("Y")."/".$datetime_next->format("m")."\">".strftime("%B %Y", $datetime_next->getTimestamp())."</a></span>";
 echo "</h3>";
+echo "<br />";
 
 $notices = new CalendarNotices($base_path, $date, $events);
 $notices->display();
