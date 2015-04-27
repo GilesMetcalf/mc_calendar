@@ -28,6 +28,7 @@ class CalendarNotices {
    * @param $_date null means ,today'
    */       
   public function display() {
+    $lf = "\n";	
     $today = new DateTime();
     $today->setTime(0,0);        
     try {    
@@ -35,7 +36,7 @@ class CalendarNotices {
       $date->setTime(0,0);      
     }
     catch (Exception $e) {
-      echo "<p class=\"error\">The date: $this->date is incorrect.</p>";
+      echo "<p class=\"error\">The date: $this->date is incorrect.</p>".$lf;
       return;
     }
       
@@ -54,11 +55,11 @@ class CalendarNotices {
 		$host = CalendarHost::findByIdFrom('CalendarHost', $event->getHostId());
 	    $category = CalendarCategory::findByIdFrom('CalendarCategory', $event->getCategoryKey());
 		
-		echo '<div class="card">';
+		echo '<div class="card">'.$lf;
 		
 		// Card header
-		echo '<div class="cardhead" style="background:'.$category->getColor().'">';
-		echo '<img class="right" src="'.URL_PUBLIC.'public/images/'.$category->getCategoryImage().'">';
+		echo '<div class="cardhead" style="background:'.$category->getColor().'">'.$lf;
+		echo '<img class="right" src="'.URL_PUBLIC.'public/images/'.$category->getCategoryImage().'">'.$lf;
 		echo '<h2>';
 		
 		//Render the event date into dd MM format
@@ -67,7 +68,7 @@ class CalendarNotices {
 			$eventdate->setTime(0,0);        
 		}
 		catch (Exception $e) {
-		  echo "<p class=\"error\">The date: $this->date is incorrect.</p>";
+		  echo "<p class=\"error\">The date: $this->date is incorrect.</p>".$lf;
 		  return;
 		}		
 		$eventday   = $eventdate->format('d');
@@ -78,32 +79,32 @@ class CalendarNotices {
 			echo ' - '.$event->getStartTime();
 		//}
 		echo '</h2><h3>';
-		echo $event->getTitle().'</h3></div>';
+		echo $event->getTitle().'</h3></div>'.$lf;
 		
 		//Card body
-		echo '<div class="cardbody">';
+		echo '<div class="cardbody">'.$lf;
 		echo '<p>';
 		echo $event->getDescription();
-		echo '</p></div>';
+		echo '</p></div>'.$lf;
 		
 		//Card footer
-		echo '<div class="cardfooter">';
+		echo '<div class="cardfooter">'.$lf;
 		echo '<p>Contact: '.$host->getHostName();
 		//if (!empty($host->getHostEmail()) {
 			echo ' (<a href="mailto:'.$host->getHostName().'">'.$host->getHostName().'</a>)';
 		//}
-		echo '</p>';
+		echo '</p>'.$lf;
 		//if (!empty($host->getHostPhone()) {
 			echo '<p>Phone: '.$host->getHostPhone();
 			//if (!empty($host->getHostAltPhone()) {
 				echo ' / '.$host->getHostAltPhone();
 			//}
-			echo '</p>';
+			echo '</p>'.$lf;
 		//}
-		echo '</div>';
+		echo '</div>'.$lf;
 		
 		
-		echo '</div>';
+		echo '</div>'.$lf;
 	}  
     
   }
