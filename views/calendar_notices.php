@@ -145,7 +145,7 @@ echo '<a href="'.$prev_url.'">'.strftime("%B %Y", $datetime_prev->getTimestamp()
 echo " ".strftime("%B %Y", $datetime->getTimestamp())." ";
 
 echo '<span class="next">';
-echo '<a href="'.$base_path.$date_next.'">'.strftime("%B %Y", $datetime_next->getTimestamp()).'</a></span>';
+echo '<a href="'.$next_url.'">'.strftime("%B %Y", $datetime_next->getTimestamp()).'</a></span>';
 
 //echo "<span class=\"next\"><a href=\"$base_path".$datetime_next->format("Y")."-".$datetime_next->format("m")."-01\">".strftime("%B %Y", $datetime_next->getTimestamp())."</a></span>";
 echo "</h3>";
