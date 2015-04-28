@@ -61,7 +61,8 @@ class Calendar {
           case 2:
             $year  = $params[0];
             $month = $params[1];
-            $this->beginCapture();            
+            $this->beginCapture();
+			//echo 'In the behaviour!';
             $this->showCalendarForMonth($year, $month);
             $this->endCapture();
             break;

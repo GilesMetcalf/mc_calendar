@@ -27,8 +27,17 @@ class McCalendarController extends PluginController {
     public function __construct() {
         self::_checkPermission();   
 
-        $this->setLayout('backend');
-        $this->assignToLayout('sidebar', new View('../../plugins/mc_calendar/views/sidebar'));
+		if(defined('CMS_BACKEND'))
+        {
+			$this->setLayout('backend');
+			$this->assignToLayout('sidebar', new View('../../plugins/mc_calendar/views/sidebar'));        }
+        else
+        {
+            // frontend
+        }
+		
+		
+		
     }
 
     // Take me to all events
@@ -250,8 +259,10 @@ class McCalendarController extends PluginController {
 	
 	}
 
-	public function notices($date) {
-		showNoticeBoard($date);
+	public function showNotices($date) {
+		//showNoticeBoard($date);
+        //redirect(get_url('plugin/mc_calendar/hosts'));
+		echo "woohoo! got here with the date: ".$date;
 	}
 	
 }

@@ -31,11 +31,16 @@ Plugin::setInfos(array(
 
 define('CALENDAR_VIEWS', 'mc_calendar/views');
 
-Plugin::addController('mc_calendar', __('Calendar'), 'admin_view', true);
+Plugin::addController('mc_calendar', __('Calendar'),'administrator, developer, editor, user', true);
 AutoLoader::addFile('CalendarEvent', CORE_ROOT.'/plugins/mc_calendar/models/CalendarEvent.php');
 AutoLoader::addFile('CalendarCategory', CORE_ROOT.'/plugins/mc_calendar/models/CalendarCategory.php');
 AutoLoader::addFile('CalendarHost', CORE_ROOT.'/plugins/mc_calendar/models/CalendarHost.php');
 Behavior::add('mc_calendar', 'mc_calendar/behaviour.php');
+Dispatcher::addRoute(array(
+    '/notices'         => 'plugin/mc_calendar/showNotices',
+    '/notices/:any' => 'plugin/mc_calendar/showNotices/$1'
+));
+
 
 function showCalendar($slug, $date = null) {
   $date_begin = new DateTime($date);
@@ -59,7 +64,8 @@ function showCalendar($slug, $date = null) {
                     array(
                       'base_path' => BASE_URL.$slug,
                       'date'      => $date,
-                      'map'       => $events_map
+                      'map'       => $events_map,
+					  'events' 	  => $events
                     ));
   $calendar->display();
 }

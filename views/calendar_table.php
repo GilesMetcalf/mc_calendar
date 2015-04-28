@@ -34,6 +34,7 @@ class CalendarTable {
   private $date;
   private $events_map;
   private $base_path;
+  private $events;
   
   /**********************************************************************************************/
   
@@ -111,7 +112,7 @@ class CalendarTable {
           $date_string = $date->format('Y-m-d');
           if (array_key_exists($date_string, $this->events_map)) {
             echo "<ul class=\"events-list\">";
-            foreach ($this->events_map[$date_string] as $event)
+            foreach ($this->events as $event)
             /* Need to look at how these URLs are built and events displayed. The approach here is lazy! */
               /* echo "<li><a href='$this->base_path/$date_string'>$event</a></li>"; */                                         
               echo '<li><a href="'.get_url('plugin/mc_calendar/display_event/'.$event->id).'">'.$event.'</a></li>';                                          
@@ -133,11 +134,12 @@ class CalendarTable {
   
   /**********************************************************************************************/  
   
-  public function __construct($base_path, $date = null, $events_map = array()) {
+  public function __construct($base_path, $date = null, $events_map = array(), $events=array()) {
     $this->base_path = $base_path;
     $this->day_names = self::getDaysNames("%a");
     $this->date = $date;
     $this->events_map = $events_map;
+	$this->events = $events;
   }
   
 } // END: class CalendarTable
