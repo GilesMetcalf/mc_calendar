@@ -136,8 +136,8 @@ $datetime_next->modify("first day of next month");
 echo "<h3>";
 $date_prev = $datetime_prev->format("Y").'-'.$datetime_prev->format("m").'-01';
 $date_next = $datetime_next->format("Y").'-'.$datetime_next->format("m").'-01';
-$prev_url = get_url('plugin/mc_calendar/notices/'.$date_prev);
-$next_url = get_url('plugin/mc_calendar/notices/'.$date_next);
+$prev_url = get_url('plugin/mc_calendar/notices',$date_prev);
+$next_url = get_url('plugin/mc_calendar/notices',$date_next);
 
 echo '<span class="prev">';
 //echo '<a href="'.$base_path.$date_prev.'">'.strftime("%B %Y", $datetime_prev->getTimestamp()).'</a></span>';
