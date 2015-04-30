@@ -35,14 +35,18 @@ Plugin::addController('mc_calendar', __('Calendar'),'administrator, developer, e
 AutoLoader::addFile('CalendarEvent', CORE_ROOT.'/plugins/mc_calendar/models/CalendarEvent.php');
 AutoLoader::addFile('CalendarCategory', CORE_ROOT.'/plugins/mc_calendar/models/CalendarCategory.php');
 AutoLoader::addFile('CalendarHost', CORE_ROOT.'/plugins/mc_calendar/models/CalendarHost.php');
-Behavior::add('mc_calendar', 'mc_calendar/behaviour.php');
+// Behavior::add('mc_calendar', 'mc_calendar/behaviour.php');
+
+//Dispatcher changes to cope with calendar and noticeboard
 Dispatcher::addRoute(array(
-    '/notices'         => 'plugin/mc_calendar/showNotices',
-    '/notices/:any' => 'plugin/mc_calendar/showNotices/$1'
+    '/notices'           => '/plugin/mc_calendar/notices',
+    '/notices/:any'      => '/plugin/mc_calendar/notices/$1',
+    '/calendar'          => '/plugin/mc_calendar/calendar',
+    '/calendar/:any'     => '/plugin/mc_calendar/calendar/$1',
 ));
 
 
-function showCalendar($slug, $date = null) {
+function showCalendar($date = null) {
   $date_begin = new DateTime($date);
   $date_begin->modify("first day of this month"); 
   $date_begin->modify("-1 week");
@@ -62,10 +66,10 @@ function showCalendar($slug, $date = null) {
   $calendar = new View(
                     PLUGINS_ROOT.DS.CALENDAR_VIEWS.'/calendar_table',
                     array(
-                      'base_path' => BASE_URL.$slug,
+                      'base_path' => get_url('plugin/mc_calendar/calendar'),
                       'date'      => $date,
                       'map'       => $events_map,
-					  'events' 	  => $events
+		      'events' 	  => $events
                     ));
   $calendar->display();
 }
@@ -87,9 +91,9 @@ function showNoticeBoard($date = null) {
   $notices = new View(
                     PLUGINS_ROOT.DS.CALENDAR_VIEWS.'/calendar_notices',
                     array(
-                      'base_path' => BASE_URL.'/showNoticeBoard/',
+                      'base_path' => get_url('plugin/mc_calendar/notices'),
                       'date'      => $date,
-                      'events'       => $events
+                      'events'    => $events
                     ));
   $notices->display();
 }
