@@ -25,19 +25,19 @@ class McCalendarController extends PluginController {
     }
 
     public function __construct() {
-        self::_checkPermission();   
-
-		if(defined('CMS_BACKEND'))
-        {
+		// Additional logic to be able to call the controller from the front end or the back end
+		if(defined('CMS_BACKEND')) {
+            parent::__construct();
+			// Original Constructor code
+			self::_checkPermission();   
 			$this->setLayout('backend');
-			$this->assignToLayout('sidebar', new View('../../plugins/mc_calendar/views/sidebar'));        }
-        else
-        {
-            // frontend
+			$this->assignToLayout('sidebar', new View('../../plugins/mc_calendar/views/sidebar'));
         }
-		
-		
-		
+        else {
+            // Our plugin is being called by the Dispatcher
+            // for one of the routes we added
+            $this->setLayout('MensaCymru');
+        }
     }
 
     // Take me to all events
@@ -259,10 +259,55 @@ class McCalendarController extends PluginController {
 	
 	}
 
-	public function showNotices($date) {
-		//showNoticeBoard($date);
-        //redirect(get_url('plugin/mc_calendar/hosts'));
-		echo "woohoo! got here with the date: ".$date;
+	function calendar($date = null) {
+	  $date_begin = new DateTime($date);
+	  $date_begin->modify("first day of this month"); 
+	  $date_begin->modify("-1 week");
+	  $date_begin = $date_begin->format('Y-m-d');
+	  
+	  $date_end = new DateTime($date);
+	  $date_end->modify("last day of this month"); 
+	  $date_end->modify("+1 week");
+	  $date_end = $date_end->format('Y-m-d');    
+	  
+	  $events = CalendarEvent::generateAllEventsBetween($date_begin, $date_end);
+	  $events_map = array();
+	  foreach ($events as $event) {
+		$events_map[$event->value][] = $event->getTitle();      
+	  }
+	  
+	  $calendar = new View(
+						PLUGINS_ROOT.DS.CALENDAR_VIEWS.'/calendar_table',
+						array(
+						  'base_path' => get_url('plugin/mc_calendar/calendar'),
+						  'date'      => $date,
+						  'map'       => $events_map,
+						  'events'	  => $events
+						));
+	  $calendar->display();
+	}
+
+	function notices($date = null) {
+	  $date_begin = new DateTime($date);
+	  $date_begin->modify("first day of this month"); 
+	  $date_begin->modify("-1 week");
+	  $date_begin = $date_begin->format('Y-m-d');
+	  
+	  $date_end = new DateTime($date);
+	  $date_end->modify("last day of this month"); 
+	  $date_end->modify("+1 week");
+	  $date_end = $date_end->format('Y-m-d');    
+	  
+	  $events = CalendarEvent::generateAllEventsBetween($date_begin, $date_end);
+	  
+	  $notices = new View(
+						PLUGINS_ROOT.DS.CALENDAR_VIEWS.'/calendar_notices',
+						array(
+						  'base_path' => get_url('plugin/mc_calendar/notices'),
+						  'date'      => $date,
+						  'events'    => $events
+						));
+	  $notices->display();
 	}
 	
 }
