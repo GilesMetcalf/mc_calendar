@@ -159,7 +159,7 @@ echo " ".strftime("%B %Y", $datetime->getTimestamp())." ";
 echo "<span class=\"next\"><a href=\"$base_path/".$datetime_next->format("Y")."/".$datetime_next->format("m")."\">".strftime("%B %Y", $datetime_next->getTimestamp())."</a></span>";
 echo "</h3>";
 
-$calendar = new CalendarTable($base_path, $date, $map);
+$calendar = new CalendarTable($base_path, $date, $map, $events);
 $calendar->display();
 
 ?>
