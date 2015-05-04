@@ -9,7 +9,6 @@
 */
 ?>
 
-<div id="mainbox">
 
 
 <?php
@@ -133,23 +132,25 @@ $datetime_prev->modify("first day of previous month");
 $datetime_next = clone($datetime);
 $datetime_next->modify("first day of next month");
 
-echo "<h3>";
-$date_prev = $datetime_prev->format("Y").'-'.$datetime_prev->format("m").'-01';
-$date_next = $datetime_next->format("Y").'-'.$datetime_next->format("m").'-01';
-$prev_url = get_url('plugin/mc_calendar/showNotices/'.$date_prev);
-$next_url = get_url('plugin/mc_calendar/showNotices/'.$date_next);
+//echo "<h1>";
+//$date_prev = $datetime_prev->format("Y").'-'.$datetime_prev->format("m").'-01';
+//$date_next = $datetime_next->format("Y").'-'.$datetime_next->format("m").'-01';
+//$prev_url = get_url('plugin/mc_calendar/showNotices/'.$date_prev);
+//$next_url = get_url('plugin/mc_calendar/showNotices/'.$date_next);
 
-echo '<span class="prev">';
+//echo '<span class="prev">';
 //echo '<a href="'.$base_path.$date_prev.'">'.strftime("%B %Y", $datetime_prev->getTimestamp()).'</a></span>';
-echo '<a href="'.$prev_url.'">'.strftime("%B %Y", $datetime_prev->getTimestamp()).'</a></span>';
-echo " ".strftime("%B %Y", $datetime->getTimestamp())." ";
+//echo '<a href="'.$prev_url.'">'.strftime("%B %Y", $datetime_prev->getTimestamp()).'</a></span>';
+//echo " ".strftime("%B %Y", $datetime->getTimestamp())." ";
 
-echo '<span class="next">';
-echo '<a href="'.$next_url.'">'.strftime("%B %Y", $datetime_next->getTimestamp()).'</a></span>';
+//echo '<span class="next">';
+//echo '<a href="'.$next_url.'">'.strftime("%B %Y", $datetime_next->getTimestamp()).'</a></span>';
 
 //echo "<span class=\"next\"><a href=\"$base_path".$datetime_next->format("Y")."-".$datetime_next->format("m")."-01\">".strftime("%B %Y", $datetime_next->getTimestamp())."</a></span>";
-echo "</h3>";
-echo "<br />";
+//echo "</h1>";
+//echo "<p>&nbsp; </p>";
+
+echo '<div id="mainbox">';
 
 $notices = new CalendarNotices($base_path, $date, $events);
 $notices->display();
