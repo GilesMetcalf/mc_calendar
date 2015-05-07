@@ -19,8 +19,8 @@ if (!defined('CALENDAR_USE_STORED_PROCEDURE')) define('CALENDAR_USE_STORED_PROCE
 
 Plugin::setInfos(array(
     'id'          => 'mc_calendar',
-    'title'       => __('Calendar'),
-    'description' => __('Calendar'),
+    'title'       => __('Mensa Calendar'),
+    'description' => __('Mensa Calendar'),
     'version'     => '0.1',
     'license'     => 'GPL',
     'author'      => 'Giles Metcalf',
@@ -31,7 +31,7 @@ Plugin::setInfos(array(
 
 define('CALENDAR_VIEWS', 'mc_calendar/views');
 
-Plugin::addController('mc_calendar', __('Calendar'),'administrator, developer, editor, user', true);
+Plugin::addController('mc_calendar', __('Mensa Calendar'),'administrator, developer, editor, user', true);
 AutoLoader::addFile('CalendarEvent', CORE_ROOT.'/plugins/mc_calendar/models/CalendarEvent.php');
 AutoLoader::addFile('CalendarCategory', CORE_ROOT.'/plugins/mc_calendar/models/CalendarCategory.php');
 AutoLoader::addFile('CalendarHost', CORE_ROOT.'/plugins/mc_calendar/models/CalendarHost.php');
