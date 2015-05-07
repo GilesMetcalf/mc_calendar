@@ -20,6 +20,7 @@
 
 return array(
     'Calendar'                                      => 'Calendar',
+    'Mensa Calendar'                                => 'Mensa Calendar',
     'Error occured during installing the calendar'  => 'Error occured during installing the Calendar Plugin',    
     'Calendar is enabled!'                          => 'Calendar Plugin is enabled!',  
     'Calendar is disabled!'                         => 'Calendar Plugin is disabled!',
